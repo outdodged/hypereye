@@ -3,7 +3,8 @@
 A small AMD SVM (AMD Secure Virtual Machine) Hypervisor for Linux systems. It provides a clear interface for creating guests, setting registers and donating memory to the guest. HYPEREYE is intended to be a minimal hypervisor without capabilities such as complex device emulation.
 It is primarily **supposed to show how AMD SVM is used and how a hypervisor, such as KVM, works under the hood**. Therefore, booting of complex systems, such as Linux or Windows, is not supported. In order to be still a comprehensive und easily understandable, HyperEye is intended to have a small codebase.
 
-HyperEye's backend and SVM defs have some functions from Kraken and other projects
+HyperEye's backend and SVM defs have some functions from Kraken and other projects (so most defs aren't 1:1 and can have some issues)
+
 This project is a reworked and better optimization of other hypervisors out there with new features aswell.
 
 I am happy about any suggestions in order to improve this project! And if you find a bug, please report it. There still might be a few in here, since the project is still in development.
