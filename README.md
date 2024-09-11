@@ -93,6 +93,7 @@ In order to build HYPEREYE, clone the repository and execute:
  - Event injection
  - VMCB state caching
   - change pointers to be like in the Linux kernel
+  - Fully included qemu cfg for easy vm setup
 
 ## IDEAS
  - converage-guided fuzzing with libfuzzer: User breakpoints & shared page in kernel
