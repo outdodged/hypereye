@@ -95,13 +95,17 @@ hpa_t* svm_mmu_walk_init(internal_mmu *m, gpa_t phys_guest, unsigned int *curren
 }
 
 gpa_t svm_mmu_gva_to_gpa(internal_guest *g, gva_t virt_guest) {
-	// TODO
+	internal_vcpu *vcpu = g->vcpus[0];
 
-	// First, get the cr3 register of the guest: use the first VCPU
+	if (!(vcpu->cr0 & CR0_PG)) return virt_guest;
 
-	// Check if the VCPU is in long mode
+	unsigned int current_level = g->mmu.levels;
+	hpa_t *pte = svm_mmu_walk_init(&g->mmu, virt_guest, &current_level);
 
-	// Do a pagetable walk for the guest pages
+	while (current_level > 1) {
+		if (svm_mmu_walk_available(pte, virt_guest, &current_level) != 0) return 0;
+		pte = svm_mmu_walk_next(pte, virt_guest, &current_level);
+	}
 
-	return 0;
+	return (*pte & PAGE_TABLE_MASK) | (virt_guest & ~PAGE_TABLE_MASK);
 }
