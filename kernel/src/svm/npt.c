@@ -1,7 +1,21 @@
 #include <svm/npt.h>
 
 void svm_set_memory_region(internal_guest *g, internal_memory_region *memory_region) {
-	// TODO
+	if (!g || !memory_region) return;
+	
+	internal_mmu *mmu = &g->mmu;
+
+	if (!mmu->base) return;
+
+	hpa_t *pte = svm_mmu_walk_init(mmu, memory_region->start_address, &(mmu->levels));
+	unsigned int current_level = mmu->levels;
+	
+	while (current_level > 1) {
+		if (svm_mmu_walk_available(pte, memory_region->start_address, &current_level) != 0) return;
+		pte = svm_mmu_walk_next(pte, memory_region->start_address, &current_level);
+	}
+
+	*pte = (memory_region->phys_address & PAGE_TABLE_MASK) | svm_map_page_attributes_to_arch(memory_region->attrib);
 }
 
 uint64_t svm_map_page_attributes_to_arch(uint64_t attrib) {
@@ -14,7 +28,6 @@ uint64_t svm_map_page_attributes_to_arch(uint64_t attrib) {
 	if ((attrib & PAGE_ATTRIB_ACCESSED) != 0) 	ret |= _PAGE_ACCESSED;
 	if ((attrib & PAGE_ATTRIB_HUGE) != 0) 		ret |= _PAGE_SPECIAL;
 	
-	// For AMD SVM, a nested page always has to be a user page
 	ret |= _PAGE_USER;
 
 	return ret;
