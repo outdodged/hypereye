@@ -1,0 +1,7 @@
+Create guest 1
+Create guest 2
+Run guest 1
+Destroy guest 1
+Run guest 2
+Destroy guest 2
+Run guest 2

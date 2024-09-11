@@ -1,0 +1,4 @@
+Result rax: 0xf4f4f4f4
+Result rbx: 0x1
+Result rcx: 0x1
+Result [0x1000]: 0xf4f4f4f4f4f4f4f4
