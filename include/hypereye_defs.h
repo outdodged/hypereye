@@ -108,6 +108,7 @@ struct __attribute__ ((__packed__)) user_intercepts {
 #define SUCCESS			0
 
 #define MAX_BREAKPOINTS_LIST_LEN			0x10000
+#define MAX_REG_LIST_LEN			        0x1000 // For each func
 
 #define GUEST_CREATE_NEW		0
 #define GUEST_CREATE_KVM_REC	1
