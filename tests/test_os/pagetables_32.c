@@ -75,13 +75,13 @@ void* allocate_pagetable(void) {
     return;
 }
 
-// Create a 1-to-1 mapping for the first 1MB of memory.
 void* create_mapping_32(void) {
-    // Allocate the root pagetable (cr3)
     pages_slab_heap_free[0] = 1;
 
+    // copy root table directlry (easier for debugging etc..)
+    uint64_t *root_table = (uint64_t*)(&pages_slab_heap[0]);
     for (uint64_t addr = 0; addr < 0x10000; addr += PAGE_SIZE) {
-        map_to_32((uint64_t*)(&pages_slab_heap[0]), addr, addr);
+        map_to_32(root_table, addr, addr);
     }
 
     return &pages_slab_heap[0];
